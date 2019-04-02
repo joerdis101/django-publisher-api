@@ -2,10 +2,11 @@
 
 {% block title %}Artikel{% endblock %}
 
+
 {% block content %}
     {% for key , value in article.items %}
         {% with template_name=key|stringformat:"s"|add:".html" %}
-        {% include "article/components/"|add:template_name %}
+            {% include "article/components/"|add:template_name %}
         {% endwith %}
     {% endfor %}
 {% endblock %}

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.forms.models import model_to_dict
 
-from .models import Article, Author, Category
+from article.models import Article, Author, Category
 from django.contrib.auth.models import User
 
 
