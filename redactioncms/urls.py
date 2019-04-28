@@ -13,17 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
-from article.views import index as article_index
+from django.urls import path, include
+from article.views import index as article_index, ArticleViewSet
 from article.views import detail
 from article.views import author
 from article.views import author_detail
 from article.views import category
 from article.views import user
+from rest_framework import routers
+from article.views import UserViewSet, GroupViewSet
+from rest_framework_swagger.views import get_swagger_view
 
+
+schema_view = get_swagger_view(title='Article CMS API')
+
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'articles', ArticleViewSet)
 
 urlpatterns = [
+    path('api/v1/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('articles/', article_index),
     path('articles/<int:id>', detail),
@@ -31,5 +44,7 @@ urlpatterns = [
     path('authors/', author),
     path('authors/<int:id>', author_detail),
     path('categories/', category),
-    path('users/', user)
+    path('users/', user),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^$', schema_view)
 ]
