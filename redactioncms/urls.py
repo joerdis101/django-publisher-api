@@ -25,6 +25,8 @@ from article.views import user
 from rest_framework import routers
 from article.views import UserViewSet, GroupViewSet
 from rest_framework_swagger.views import get_swagger_view
+from graphene_django.views import GraphQLView
+from redactioncms.schema import schema
 
 
 schema_view = get_swagger_view(title='Article CMS API')
@@ -46,5 +48,6 @@ urlpatterns = [
     path('categories/', category),
     path('users/', user),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^$', schema_view)
+    path('rest/', schema_view),
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
 ]
