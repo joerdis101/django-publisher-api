@@ -13,15 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from article.views import index as article_index, ArticleViewSet
-from article.views import detail
-from article.views import author
-from article.views import author_detail
-from article.views import category
-from article.views import user
+from article.views import ArticleViewSet
 from rest_framework import routers
 from article.views import UserViewSet, GroupViewSet
 from rest_framework_swagger.views import get_swagger_view
@@ -40,13 +34,6 @@ router.register(r'articles', ArticleViewSet)
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('articles/', article_index),
-    path('articles/<int:id>', detail),
-    path('articles/<int:id>/<int:year>', detail),
-    path('authors/', author),
-    path('authors/<int:id>', author_detail),
-    path('categories/', category),
-    path('users/', user),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('rest/', schema_view),
     path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
